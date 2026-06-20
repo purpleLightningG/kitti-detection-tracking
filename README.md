@@ -30,7 +30,7 @@
 ## Architecture
 
 <p align="center">
-  <img src="assets/architecture.png" alt="Pipeline architecture" width="700"/>
+  <img src="assets/architecture.png" alt="Pipeline architecture" width="390"/>
 </p>
 
 ```
