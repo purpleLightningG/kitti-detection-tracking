@@ -1,0 +1,43 @@
+data:
+  root: "C:/Users/Dream Team/Desktop/kitti_velodyne/training"
+  calib_dir: "calib"
+  image_dir: "image_2"
+  label_dir: "label_2"
+  velodyne_dir: "velodyne"
+  train_split: [0, 3711]
+  val_split: [3712, 7480]
+
+detector:
+  model: "pointpillars"
+  config_file: "C:/Users/Dream Team/Desktop/Monolayout/OpenPCDet/tools/cfgs/kitti_models/pointpillar.yaml"
+  checkpoint: "C:/Users/Dream Team/Desktop/Monolayout/pointpillar_7728.pth"
+  score_thresh:
+    Car: 0.3
+    Pedestrian: 0.2
+    Cyclist: 0.2
+  nms_thresh: 0.1
+
+tracker:
+  match_thresh: 0.3
+  second_match_thresh: 0.5
+  high_thresh: 0.5
+  low_thresh: 0.1
+  max_age: 30
+  min_hits: 1
+
+eval:
+  iou_thresh:
+    Car: 0.7
+    Pedestrian: 0.5
+    Cyclist: 0.5
+
+vis:
+  bev_range: [0, -25, 55, 25]
+  bev_resolution: 0.05
+  point_size: 3
+
+output:
+  detections: "outputs/detections"
+  tracks: "outputs/tracks"
+
+device: "cuda:0"
