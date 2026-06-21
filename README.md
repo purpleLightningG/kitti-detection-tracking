@@ -21,11 +21,11 @@
 ## Highlights
 
 
-- **PointPillars detector** — converts raw LiDAR point clouds into a pseudo-image of pillar features, then runs a 2D detection head for 3D bounding box prediction
-- **ByteTrack 3D** — assigns persistent track IDs across frames, handles low-confidence detections via two-stage IoU association with Kalman prediction
-- **Full KITTI evaluation** — computes mAP at IoU 0.7 (Car) / 0.5 (Pedestrian, Cyclist) using the official 11-point interpolation metric
-- **Deployment pipeline** — pure-PyTorch PointPillars reimplementation (no OpenPCDet CUDA dependency) → ONNX → TensorRT engine, achieving **1.36× speedup** (60 FPS) over the PyTorch baseline on RTX 3080
-- **End-to-end visualization** — BEV (bird's-eye view) and camera-projected overlays with color-coded track IDs; side-by-side demo GIF of camera view + rotating 3D LiDAR
+- **PointPillars detector**: converts raw LiDAR point clouds into a pseudo-image of pillar features, then runs a 2D detection head for 3D bounding box prediction
+- **ByteTrack 3D**: assigns persistent track IDs across frames, handles low-confidence detections via two-stage IoU association with Kalman prediction
+- **Full KITTI evaluation**: computes mAP at IoU 0.7 (Car) / 0.5 (Pedestrian, Cyclist) using the official 11-point interpolation metric
+- **Deployment pipeline**: pure-PyTorch PointPillars reimplementation (no OpenPCDet CUDA dependency) → ONNX → TensorRT engine, achieving **1.36× speedup** (60 FPS) over the PyTorch baseline on RTX 3080
+- **End-to-end visualization**: BEV (bird's-eye view) and camera-projected overlays with color-coded track IDs; side-by-side demo GIF of camera view + rotating 3D LiDAR
 
 
 ## Architecture
@@ -63,7 +63,7 @@ KITTI LiDAR frames (.bin)
 | Pedestrian | 0.818 (IoU 0.5) | 2,215 |
 | Cyclist | 0.727 (IoU 0.5) | 790 |
 
-The gap from 1.0 reflects the occlusion/truncation filter applied to inputs (dropping heavily-occluded objects that the model wouldn't be expected to recover) — a useful proxy for how well the pipeline can handle visible-only detections.
+The gap from 1.0 reflects the occlusion/truncation filter applied to inputs (dropping heavily-occluded objects that the model wouldn't be expected to recover), a useful proxy for how well the pipeline can handle visible-only detections.
 
 ### Tracking on KITTI val split
 
@@ -74,9 +74,9 @@ The gap from 1.0 reflects the occlusion/truncation filter applied to inputs (dro
 | Total tracked objects | 80 |
 | Avg tracks/frame | < 1 |
 
-Low tracking density is expected here — KITTI's 3D Object Detection benchmark contains shuffled single-frame snapshots from different sequences, not continuous video. The tracker's two-stage IoU association and Kalman prediction still run correctly, but cross-frame matching has nothing meaningful to associate. The tracker is designed for the **KITTI Tracking benchmark** (continuous sequences), which is the proper test set for ID persistence metrics.
+Low tracking density is expected here, KITTI's 3D Object Detection benchmark contains shuffled single-frame snapshots from different sequences, not continuous video. The tracker's two-stage IoU association and Kalman prediction still run correctly, but cross-frame matching has nothing meaningful to associate. The tracker is designed for the **KITTI Tracking benchmark** (continuous sequences), which is the proper test set for ID persistence metrics.
 
-### Deployment — TensorRT speedup on RTX 3080
+### Deployment - TensorRT speedup on RTX 3080
 
 Benchmarked on RTX 3080 over 50 KITTI val frames (avg 11,027 active pillars/frame), 50 inference calls averaged after 10-iteration warmup. PointPillars was reimplemented as a pure-PyTorch standalone model (no OpenPCDet CUDA ops), then exported via ONNX to TensorRT. See [`deployment/`](deployment/) for the full pipeline.
 
